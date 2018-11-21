@@ -15,7 +15,7 @@ print " ID \t Time  \t Info"
 print " -------------------------------"
 
 # Set the field seperator to the seperator
-# the mysqladmin uses.
+# that mysqladmin uses.
 FS="|"
 }
 
