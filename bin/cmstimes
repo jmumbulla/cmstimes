@@ -1,21 +1,52 @@
+# This is an awk script to process the saved output of
+# mysqladmin processlist and keep the process id,
+# maximum times for each user request and the info field.
+#
+# It has a really bad fixed value for the condition 
+# in the for statement.
+#
+# Usage: awk -f cmstimes FILE
+
+
 BEGIN {
+
+# Print simple column headings
 print " ID \t Time  \t Info"
 print " -------------------------------"
+
+# Set the field seperator to the seperator
+# the mysqladmin uses.
 FS="|"
 }
 
 {
+    # Only get rows with numbers for ID and are Queries
     if ($7 ~ /[0-9]+/ && $6 = /Query/ )
     {
-        #if ($7 > max)
+
+        # If its the longest time for the process
+        # save it as the maximum.
         if ( $7 > max[$2])
         {
             max[$2] = $7
         }
+
+        # loop over all the rows.
+        # Really bad having a fixed 
+        # maximum value.
         for ( i = 1; i < 5000 ; i++) {
+
+            # if the time taken is less then
+            # the current maximum for the process
+            # ignore the row and go to the next.
             if ($7 < max[2]) {
                 break
             }
+
+            # Save the fields we need:
+            #   - the process id
+            #   - the time taken so far
+            #   - the sql query that was run.
             id[$i]    = $2
             times[$i] = $7 
             info[$i]  = $9
@@ -23,10 +54,11 @@ FS="|"
     }
 }
 END {
+
+    # Print out everything that was found.
     for (i in id)
        print id[i] "\t" times[i] "\t" info[i]
 
-    print " -------------------------------"
 #    for (i in max)
 #        print i ": " max[i]
 #
