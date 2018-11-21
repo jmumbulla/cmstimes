@@ -5,15 +5,30 @@ FS="|"
 }
 
 {
-#     print $2 $7
-    if ($7 ~ /[0-9]+/ )
+    if ($7 ~ /[0-9]+/ && $6 = /Query/ )
     {
-        times[$2] = $7 #~/^[0-9]+$/
-        info[$2] = $9 #~/^[0-9]+$/
+        #if ($7 > max)
+        if ( $7 > max[$2])
+        {
+            max[$2] = $7
+        }
+        for ( i = 1; i < 5000 ; i++) {
+            if ($7 < max[2]) {
+                break
+            }
+            id[$i]    = $2
+            times[$i] = $7 
+            info[$i]  = $9
+        }
     }
 }
 END {
-    for (i in times)
-       print i "\t" times[i] "\t" info[i]
-print " -------------------------------"
+    for (i in id)
+       print id[i] "\t" times[i] "\t" info[i]
+
+    print " -------------------------------"
+#    for (i in max)
+#        print i ": " max[i]
+#
+#    print " -------------------------------"
 }
