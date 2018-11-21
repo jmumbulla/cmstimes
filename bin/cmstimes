@@ -1,0 +1,19 @@
+BEGIN {
+print " ID \t Time  \t Info"
+print " -------------------------------"
+FS="|"
+}
+
+{
+#     print $2 $7
+    if ($7 ~ /[0-9]+/ )
+    {
+        times[$2] = $7 #~/^[0-9]+$/
+        info[$2] = $9 #~/^[0-9]+$/
+    }
+}
+END {
+    for (i in times)
+       print i ": \t" times[i] "\t" info[i]
+print " -------------------------------"
+}
