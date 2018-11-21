@@ -14,6 +14,6 @@ FS="|"
 }
 END {
     for (i in times)
-       print i ": \t" times[i] "\t" info[i]
+       print i "\t" times[i] "\t" info[i]
 print " -------------------------------"
 }
